@@ -1,0 +1,35 @@
+<title>Pinterest | Edit Pin</title>
+
+<div class="columns is-multiline">
+    <div class="column is-8 is-offset-2">
+        <figure class="media-left columns is-multiline is-mobile is-gapless">
+            <img id="updatePreview" class="column is-2" src="{{pin.thumbnail.url}}">
+        </figure>
+        <form id="editForm" enctype='multipart/form-data'
+              hx-post="{% url 'pins:edit_pin' pin.pk %}"
+              hx-swap="innerHTML transition:true"
+              hx-target="#main"
+              hx-on::before-request="htmx.toggleClass(htmx.find('#updateBar'), 'is-hidden');"
+              hx-sync="closest form:drop"
+        >
+
+            {% csrf_token %}
+            <progress id="updateBar" class="progress is-link is-hidden"></progress>
+            <input class="input" type="file" accept="image/*" name="image"
+                   onchange="document.getElementById('updatePreview').src = window.URL.createObjectURL(this.files[0])"
+            >
+            <input class="input mt-1" name="tags" type="text"
+                   value="{% for tag in pin.tags.all %}{{ tag }}, {% endfor %}" required>
+            <button class="button is-success mt-2">Update</button>
+
+        </form>
+    </div>
+</div>
+
+<script>
+
+    htmx.on('#editForm', 'htmx:xhr:progress', function(evt) {
+    htmx.find('#updateBar').setAttribute('value', evt.detail.loaded/evt.detail.total * 100)
+    });
+
+</script>

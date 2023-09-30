@@ -1,0 +1,15 @@
+{% load extras %}
+{% if request.user.is_authenticated %}
+<a
+  hx-post="{% url 'pins:toggle_like' pin.pk %}"
+  hx-swap="outerHTML transition:true"
+  hx-target="this"
+  class="{% is_liked pin.pk request.user %} 
+{% else %}
+  <a
+  {% endif %}
+  button is-danger"
+  title="Like"
+>
+  <i class="fa-solid fa-heart">&nbsp;{{pin.get_total_like}}</i>
+</a>

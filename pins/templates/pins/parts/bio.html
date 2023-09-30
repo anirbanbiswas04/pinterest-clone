@@ -1,0 +1,14 @@
+<article>
+  {{user.profile.first.get_bio}}
+</article>
+
+{% if request.user == user %}
+<a
+  hx-get="{% url 'pins:bio_edit' %}"
+  hx-swap="innerHTML transition:true"
+  hx-target="#bio"
+  class="button is-warning m-1"
+  title="Edit"
+><i class="fa-solid fa-pen-to-square"></i>
+</a>
+{% endif %}

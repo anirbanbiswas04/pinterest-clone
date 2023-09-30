@@ -1,0 +1,27 @@
+<form
+  hx-post="{% url 'pins:bio_edit' %}"
+  hx-swap="innerHTML transition:true"
+  hx-target="#bio"
+  class="my-4"
+>
+  {% csrf_token %}
+  <div class="columns">
+    <div class="column is-4 is-offset-4">
+      <div class="field">
+        <div class="control">
+          <textarea
+            maxlength="300"
+            class="textarea"
+            placeholder="Write a bio about yourself"
+            name="bio"
+          >{{bio}}</textarea>
+        </div>
+      </div>
+      <div class="control">
+        <button class="button is-warning is-pulled-right">
+          <i class="fa-solid fa-check"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,111 @@
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a
+      class="navbar-item"
+      hx-get="{% url 'home' %}"
+      hx-swap="innerHTML transition:true"
+      hx-target="#main"
+      hx-push-url="{% url 'home' %}"
+    >
+      <h1 class="is-size-5 has-text-weight-semibold">Pinterest</h1>
+    </a>
+
+    <a role="button" class="navbar-burger">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div class="navbar-menu">
+    <div class="navbar-start">
+      <div class="navbar-item">
+        <form
+          hx-get="{% url 'pins:search_pin' %}"
+          hx-push-url="true"
+          hx-swap="innerHTML transition:true"
+          hx-target="#main"
+        >
+          <div class="field has-addons">
+            <div class="control">
+              <input
+                type="text"
+                name="query"
+                class="input"
+                placeholder="Search..."
+              />
+            </div>
+            <div class="control">
+              <button class="button is-primary">
+                <span class="icon">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      {% if request.user.is_authenticated %}
+      <div class="navbar-item">
+        <button title="Upload" class="button is-primary upload">
+          <span class="icon">
+            <i class="fa-solid fa-upload"></i>
+          </span>
+        </button>
+      </div>
+      <div class="navbar-item">
+        <button
+          hx-get="{% url 'pins:liked_pins' %}"
+          hx-push-url="true"
+          hx-swap="innerHTML transition:true"
+          hx-target="#main"
+          title="Likes"
+          class="button is-warning"
+        >
+          <span class="icon">
+            <i class="fa-solid fa-heart"></i>
+          </span>
+        </button>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          {% if request.user.is_authenticated %}
+          <a
+            hx-get="{% url 'pins:profile' request.user.username %}"
+            hx-target="#main"
+            hx-swap="innerHTML transition:true"
+            hx-push-url="true"
+            title="Profile"
+            class="button is-primary"
+          >
+            <span class="icon">
+              <i class="fa-solid fa-user"></i>
+            </span>
+          </a>
+          <a href="{% url 'logout' %}" title="Logout" class="button is-danger">
+            <span class="icon">
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </span>
+          </a>
+          {% else %}
+          <a href="{% url 'signup' %}" title="Signup" class="button is-primary">
+            <span class="icon">
+              <i class="fa-sharp fa-solid fa-user-plus"></i>
+            </span>
+          </a>
+          <a href="{% url 'login' %}" title="Login" class="button is-light">
+            <span class="icon">
+              <i class="fa-solid fa-right-to-bracket"></i>
+            </span>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,26 @@
+{% load static %} 
+
+{% for pin in pins %} 
+{% if forloop.last and pins.has_next %}
+<figure
+  hx-get="{{request.path}}?page={{pins.next_page_number}}{% if query %}&query={{query}}{% endif %}"
+  hx-trigger="revealed"
+  hx-swap="afterend transition:true 2s"
+  hx-target="this"
+  class="image grid-item"
+>
+{% else %}
+  <figure class="image grid-item">
+{% endif %}
+
+    <a
+      hx-get="{% url 'pins:view_pin' pin.pk %}"
+      hx-swap="innerHTML transition:true"
+      hx-push-url="{% url 'pins:view_pin' pin.pk %}"
+      hx-target="#main"
+    >
+      <img src="{{pin.thumbnail.url}}" height="{{pin.thumbnail.height}}" width="{{pin.thumbnail.width}}"/>
+    </a>
+  </figure>
+{% endfor %}
+<script type="text/javascript" src="{% static 'layout.js' %}" defer></script>

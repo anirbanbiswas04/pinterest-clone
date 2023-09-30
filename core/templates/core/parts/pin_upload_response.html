@@ -1,0 +1,14 @@
+<div id="imageUploadResponse">
+  <span class="pt-1 pb-2 is-link" id="responseText"
+    >Your image has been successfully upload.
+    <a
+      hx-get="{% url 'pins:view_pin' pin.pk %}"
+      hx-swap="innerHTML transition:true"
+      hx-push-url="{% url 'pins:view_pin' pin.pk %}"
+      hx-target="#main"
+      onclick="htmx.removeClass('#uploadPin', 'is-active')"
+      >Click here</a
+    >
+    to see it.</span
+  >
+</div>

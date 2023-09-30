@@ -1,0 +1,11 @@
+<title>Pinterest | {{user.username}}</title>
+
+<div class="mb-6 has-text-centered">
+  <h4 class="is-size-4"><strong>{{user.username}}</strong></h4>
+  <div id="bio">
+    {% include 'pins/parts/bio.html' %}
+  </div>
+</div>
+<div class="grid">
+  {% include 'core/parts/pins_grid_container.html' %}
+</div>

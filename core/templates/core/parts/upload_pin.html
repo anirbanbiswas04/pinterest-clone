@@ -1,0 +1,72 @@
+<div class="modal px-5" id="uploadPin">
+  <div class="modal-background" onclick="closeModal()"></div>
+  <div class="modal-card">
+    <form
+      id="uploadForm"
+      hx-post="{% url 'pins:upload_pin' %}"
+      hx-target="#imageUploadResponse"
+      hx-swap="outerHTML"
+      hx-on::before-request="removeResponseText(), showProgressBar()"
+      hx-on::after-request="removeProgressBar()"
+      hx-on::send-abort:="removeProgressBar()"
+      hx-sync="closest form:drop"
+      enctype="multipart/form-data"
+    >
+      <header class="modal-card-head">
+        <p class="modal-card-title">Upload</p>
+        <button
+          onclick="closeModal()"
+          class="delete"
+          aria-label="close"
+        ></button>
+      </header>
+      <section class="modal-card-body">
+        <div id="imageUploadResponse"></div>
+        <progress
+          class="progress is-link is-hidden mt-3"
+          id="progress"
+          value="0"
+          max="100"
+        ></progress>
+        <div class="field">
+          <label class="label">Image</label>
+          <div class="control">
+            <input
+              class="input"
+              type="file"
+              accept="image/*"
+              name="image"
+              required
+            />
+            <p class="help">Upload an image</p>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Tags</label>
+          <div class="control">
+            <input
+              type="text"
+              class="input"
+              name="tags"
+              maxlength="255"
+              required
+            />
+            <p class="help">
+              Write some tags that others can find it, separated by comma.
+            </p>
+          </div>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" id="imageUpload">Upload</button>
+        <a
+          id="abortUpload"
+          onclick="htmx.trigger('#uploadForm', 'htmx:abort')"
+          role="button"
+          class="button is-hidden"
+          >Cancel</a
+        >
+      </footer>
+    </form>
+  </div>
+</div>
